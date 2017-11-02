@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IvorChalton.GameOfLife.DTO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IvorChalton.GameOfLife.Tests
 {

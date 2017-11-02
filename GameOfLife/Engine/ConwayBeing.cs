@@ -1,13 +1,14 @@
-﻿using System.Linq;
+﻿using IvorChalton.GameOfLife.DTO;
+using System.Linq;
 
-namespace IvorChalton.GameOfLife
+namespace IvorChalton.GameOfLife.Engine
 {
     /// <summary>
     /// The Conway being decides whether a cell lives or dies, dependent on its surrounding cells
     /// </summary>
     class ConwayBeing : IOmnipotentBeing
     {
-        readonly ICellAcquirer _acquirer;       
+        readonly ICellAcquirer _acquirer;
 
         public ConwayBeing(ICellAcquirer acquirer)
         {

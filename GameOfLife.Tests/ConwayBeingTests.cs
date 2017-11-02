@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IvorChalton.GameOfLife.DTO;
+using IvorChalton.GameOfLife.Engine;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace IvorChalton.GameOfLife.Tests
@@ -7,13 +9,14 @@ namespace IvorChalton.GameOfLife.Tests
     public class ConwayBeingTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Test_Conway_Being_Decisions()
         {
-            var conwayBeing = new ConwayBeing(new MockCellAcquirer_with3_alive());
+            // Two or three cells surrounding mean the cell stays put
+            var conwayBeing = new ConwayBeing(new MockCellAcquirer_with2_alive());
             Cell cell = new Cell(1, 2) { IsAlive = true };
             Assert.IsFalse(conwayBeing.Decide(cell));  // No change expected
 
-            conwayBeing = new ConwayBeing(new MockCellAcquirer_with2_alive());
+            conwayBeing = new ConwayBeing(new MockCellAcquirer_with3_alive());
             cell = new Cell(1, 2) { IsAlive = true };
             Assert.IsFalse(conwayBeing.Decide(cell));  // No change expected
 

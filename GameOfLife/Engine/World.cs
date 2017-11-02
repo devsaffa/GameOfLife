@@ -1,8 +1,12 @@
-﻿using System;
+﻿using IvorChalton.GameOfLife.DTO;
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace IvorChalton.GameOfLife
+namespace IvorChalton.GameOfLife.Engine
 {
     /// <summary>
     /// The world in which cells live and die
@@ -10,15 +14,20 @@ namespace IvorChalton.GameOfLife
     class World
     {
         /// <summary>
+        /// Fired when the state of any cells have changed
+        /// </summary>
+        public event EventHandler<CellsUpdatedEventArgs> CellsUpdated;
+
+        /// <summary>
         /// The Cells in this world
         /// </summary>
         /// <remarks>
-        /// For speed, I've used a custom hash-creation using primes as the index (see Point.CalcHash(), rather than implementing IEquatable on a Point
+        /// For speed, I've used a custom hash-creation using primes as the index (see Point.CalcHash()), rather than implementing IEquatable on a Point
         /// </remarks>
         public ConcurrentDictionary<int, Cell> Cells { get; private set; } = new ConcurrentDictionary<int, Cell>();
 
         /// <summary>
-        /// The number of columns in this world: NOTE: I haven't built in automatic world-expansion, but this should be fairly trivial
+        /// The number of columns in this world: NOTE: I haven't built in automatic world-expansion, but this should be _fairly_ trivial
         /// </summary>
         public int MaxX { get; private set; }
 
@@ -40,25 +49,35 @@ namespace IvorChalton.GameOfLife
             MaxY = size;
         }
 
+        public void Configure(IOmnipotentBeing being)
+        {
+            _rulesGiver = being;
+        }
+
         /// <summary>
         /// Randomly seed the world with the supplied number of living cells
         /// </summary>
         /// <param name="numLiving">The number of living cells</param>
         /// <remarks>
-        /// May result in less actual living cells if cells are randomly chosen multiple times. 
+        /// NOTE: May result in less actual living cells if cells are randomly chosen multiple times. 
         /// </remarks>
-        public void Seed(int numLiving, IOmnipotentBeing rulesGiver)
+        public void Seed(int numLiving)
         {
-            _rulesGiver = rulesGiver;
-
+            var cells = new List<Cell>();
             var rand = new Random();
             for (int i = 0; i < numLiving; i++)
             {
                 int xPos = rand.Next(0, MaxX - 1);
                 int yPos = rand.Next(0, MaxY - 1);
 
-                Cells[Point.CalcHash(xPos, yPos)].IsAlive = true;
+                var cell = Cells[Point.CalcHash(xPos, yPos)];
+                Debug.WriteLine($"Seeding cell {xPos}.{yPos}. HASH={Point.CalcHash(xPos, yPos)}, cellX={cell.Location.X} cellY={cell.Location.Y}");
+                cell.IsAlive = true;
+
+                cells.Add(cell);
             }
+
+            CellsUpdated?.Invoke(this, new CellsUpdatedEventArgs { Cells = cells });
         }
 
         /// <summary>
@@ -67,7 +86,7 @@ namespace IvorChalton.GameOfLife
         public void GrowOlder()
         {
             if (_rulesGiver == null)
-                throw new InvalidOperationException("World has not yet been seeded");
+                throw new InvalidOperationException("World has not yet been configured with a rules-giver");
 
             var cellsToChange = new ConcurrentBag<Cell>();
 
@@ -80,6 +99,12 @@ namespace IvorChalton.GameOfLife
 
             // Now update the cells
             Parallel.ForEach(cellsToChange, cell => cell.IsAlive = !cell.IsAlive);
+
+            if (cellsToChange.Count > 0)
+                Debug.WriteLine($"{cellsToChange.Count} cells changed Firing...");
+                CellsUpdated?.Invoke(this, new CellsUpdatedEventArgs {
+                    Cells = cellsToChange.AsEnumerable()
+                });
         }
     }
 }

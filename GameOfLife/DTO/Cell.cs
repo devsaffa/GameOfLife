@@ -1,4 +1,4 @@
-﻿namespace IvorChalton.GameOfLife
+﻿namespace IvorChalton.GameOfLife.DTO
 {
     /// <summary>
     /// A cell located at a point in space

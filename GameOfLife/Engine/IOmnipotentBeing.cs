@@ -1,4 +1,6 @@
-﻿namespace IvorChalton.GameOfLife
+﻿using IvorChalton.GameOfLife.DTO;
+
+namespace IvorChalton.GameOfLife.Engine
 {
     /// <summary>
     /// A being responsible for determining whether a cell lives or dies

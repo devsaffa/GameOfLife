@@ -1,7 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using IvorChalton.GameOfLife.DTO;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace IvorChalton.GameOfLife
+namespace IvorChalton.GameOfLife.Engine
 {
     class SurroundingCellAcquirer : ICellAcquirer
     {

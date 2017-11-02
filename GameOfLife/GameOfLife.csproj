@@ -7,7 +7,7 @@
     <ProjectGuid>{BE92650D-05EC-4A19-B53E-50924FD377AB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameOfLife</RootNamespace>
+    <RootNamespace>IvorChalton.GameOfLife</RootNamespace>
     <AssemblyName>GameOfLife</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,15 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
-    <Compile Include="ConwayBeing.cs" />
-    <Compile Include="ICellAcquirer.cs" />
-    <Compile Include="IOmnipotentBeing.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="DTO\Cell.cs" />
+    <Compile Include="Engine\CellsUpdatedEventArgs.cs" />
+    <Compile Include="Engine\ConwayBeing.cs" />
+    <Compile Include="Engine\ICellAcquirer.cs" />
+    <Compile Include="Engine\IOmnipotentBeing.cs" />
+    <Compile Include="DTO\Point.cs" />
+    <Compile Include="View\ConsoleView.cs" />
+    <Compile Include="View\SeedWorldEventArgs.cs" />
+    <Compile Include="Presenter\WorldPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SurroundingCellAcquirer.cs" />
-    <Compile Include="World.cs" />
+    <Compile Include="Engine\SurroundingCellAcquirer.cs" />
+    <Compile Include="Engine\World.cs" />
+    <Compile Include="View\IWorldView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
