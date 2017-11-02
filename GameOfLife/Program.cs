@@ -9,7 +9,7 @@ namespace IvorChalton.GameOfLife
         {
             try
             {
-                var view = new ConsoleView(40, 100);
+                var view = new ConsoleView(30, 100);
                 view.Run();
             }
             catch (Exception ex)

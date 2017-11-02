@@ -71,7 +71,6 @@ namespace IvorChalton.GameOfLife.Engine
                 int yPos = rand.Next(0, MaxY - 1);
 
                 var cell = Cells[Point.CalcHash(xPos, yPos)];
-                Debug.WriteLine($"Seeding cell {xPos}.{yPos}. HASH={Point.CalcHash(xPos, yPos)}, cellX={cell.Location.X} cellY={cell.Location.Y}");
                 cell.IsAlive = true;
 
                 cells.Add(cell);
@@ -101,7 +100,6 @@ namespace IvorChalton.GameOfLife.Engine
             Parallel.ForEach(cellsToChange, cell => cell.IsAlive = !cell.IsAlive);
 
             if (cellsToChange.Count > 0)
-                Debug.WriteLine($"{cellsToChange.Count} cells changed Firing...");
                 CellsUpdated?.Invoke(this, new CellsUpdatedEventArgs {
                     Cells = cellsToChange.AsEnumerable()
                 });

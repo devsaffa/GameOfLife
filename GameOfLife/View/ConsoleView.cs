@@ -110,8 +110,6 @@ namespace IvorChalton.GameOfLife.View
 
         public void Update(IEnumerable<Cell> cells)
         {
-            Debug.WriteLine($"{cells.Count()} cells are being updated");
-
             foreach (var cell in cells)
             {
                 // NOTE: Seems like SetCursorPosition becomes flaky when the World size gets big (i.e. when the console buffer increases). Have not investigated further.
